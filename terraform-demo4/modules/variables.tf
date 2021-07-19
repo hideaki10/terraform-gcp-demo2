@@ -9,11 +9,11 @@ variable "zone" {
   type        = string
   default     = "asia-northeast1-a"
 
-  validation {
-    condition = contains(
-    ["asia-northeast1-a", "asia-northeast1-b", "asia-northeast1-c"], var.zone)
-    error_message = "The zone must be in asia-region."
-  }
+  # validation {
+  #   condition = contains(
+  #   ["asia-northeast1-a", "asia-northeast1-b", "asia-northeast1-c"], var.zone)
+  #   error_message = "The zone must be in asia-region."
+  # }
 }
 
 variable "service_name" {
