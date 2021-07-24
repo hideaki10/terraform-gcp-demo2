@@ -29,6 +29,10 @@ resource "google_compute_instance_template" "default" {
     network    = "default"
     subnetwork = "default"
   }
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 resource "google_compute_region_instance_group_manager" "default" {
@@ -61,6 +65,8 @@ resource "google_compute_region_autoscaler" "default" {
     min_replicas = 6
   }
 }
+
+
 
 resource "google_compute_health_check" "mig_health_check" {
   name = "default"
