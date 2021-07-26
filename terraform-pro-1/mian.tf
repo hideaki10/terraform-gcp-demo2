@@ -1,3 +1,4 @@
+// インスタンステンプレート
 resource "google_compute_instance_template" "default" {
   name_prefix  = "default-"
   machine_type = "f1-micro"
@@ -35,6 +36,7 @@ resource "google_compute_instance_template" "default" {
   }
 }
 
+//インスタンスグループ
 resource "google_compute_region_instance_group_manager" "default" {
 
   name = "default"
@@ -55,6 +57,7 @@ resource "google_compute_region_instance_group_manager" "default" {
   }
 }
 
+// インスタンスグループ　自動scaling
 resource "google_compute_region_autoscaler" "default" {
   name   = "default"
   region = var.region
@@ -67,7 +70,7 @@ resource "google_compute_region_autoscaler" "default" {
 }
 
 
-
+//  vm へのヘルスチェック
 resource "google_compute_health_check" "mig_health_check" {
   name = "default"
   http_health_check {
@@ -75,6 +78,7 @@ resource "google_compute_health_check" "mig_health_check" {
   }
 }
 
+// firewallの設定,google_compute_instanceと関連　80port
 resource "google_compute_firewall" "mig_health_check" {
   name    = "default"
   network = "default"
@@ -88,6 +92,7 @@ resource "google_compute_firewall" "mig_health_check" {
   target_tags = ["allow-service"]
 }
 
+// firewallの設定,google_compute_instanceと関連 22port
 resource "google_compute_firewall" "default_ssh" {
   name    = "default-ssh"
   network = "default"
@@ -101,12 +106,14 @@ resource "google_compute_firewall" "default_ssh" {
   target_tags   = ["allow-ssh"]
 }
 
+// router
 resource "google_compute_router" "default" {
   name    = "default"
   network = "default"
   region  = var.region
 }
 
+// NAT service
 resource "google_compute_router_nat" "default" {
   name   = "default"
   router = google_compute_router.default.name
@@ -117,15 +124,7 @@ resource "google_compute_router_nat" "default" {
   nat_ip_allocate_option = "AUTO_ONLY"
 }
 
-
-# resource "google_compute_backend_service" "backend1" {
-#   name = "backend1"
-#   backend = {
-#     group = google_compute_region_instance_group_manger.default.instance_group
-#   }
-
-#   health_checks = [google_compute_health_check.mig_health_check.self_link]
-# }
+//　ロードバランサためのバックエンド構成
 resource "google_compute_backend_service" "backend1" {
   name = "backend1"
   backend {
@@ -134,28 +133,33 @@ resource "google_compute_backend_service" "backend1" {
   health_checks = [google_compute_health_check.mig_health_check.self_link]
 }
 
+//　 
 resource "google_compute_url_map" "default" {
   name            = "default"
   default_service = google_compute_backend_service.backend1.self_link
 }
 
+//　https request →　url map
 resource "google_compute_target_https_proxy" "default" {
   name             = "default"
   url_map          = google_compute_url_map.default.self_link
   ssl_certificates = [google_compute_ssl_certificate.example.self_link]
 }
 
+// https load balancing ためのssl証明書
 resource "google_compute_ssl_certificate" "example" {
   name        = "example"
   private_key = tls_private_key.example.private_key_pem
   certificate = tls_self_signed_cert.example.cert_pem
 }
 
+//private key
 resource "tls_private_key" "example" {
   algorithm = "RSA"
   rsa_bits  = 2048
 }
 
+// generates a self-signed TLS certificate
 resource "tls_self_signed_cert" "example" {
   key_algorithm   = tls_private_key.example.algorithm
   private_key_pem = tls_private_key.example.private_key_pem
@@ -178,6 +182,8 @@ resource "tls_self_signed_cert" "example" {
   }
 }
 
+
+//　http load balaning 
 resource "google_compute_global_forwarding_rule" "default" {
   name   = "default"
   target = google_compute_target_https_proxy.default.self_link
@@ -185,12 +191,14 @@ resource "google_compute_global_forwarding_rule" "default" {
   port_range = "443"
 }
 
+//output 
 output "external_ip" {
   description = "the exteranl IP assigned to the global fowarding rule"
   value       = google_compute_global_forwarding_rule.default.ip_address
 }
 
 
+//provider
 provider "google" {
   project = var.project
   region  = var.region
