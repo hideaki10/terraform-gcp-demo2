@@ -9,7 +9,7 @@ resource "google_project" "service" {
 //project_service 
 //config the api 
 resource "google_project_service" "gcp_api_service" {
-  for_each           = toset((concat(var.gcp_default_enable_services, var.gcp_additional_enable_services)))
+  for_each           = toset((concat(var.gcp_default_enabled_services, var.gcp_additional_enable_services)))
   project            = google_project.microservice.project_id
   service            = each.key
   disable_on_destroy = false

@@ -18,7 +18,7 @@ variable "billing_account" {
 }
 
 //通用api
-variable "gcp_default_enable_services" {
+variable "gcp_default_enabled_services" {
   description = "GCP API services tp be enabled by default"
   type        = list(string)
 
