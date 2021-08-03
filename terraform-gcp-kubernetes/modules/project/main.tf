@@ -1,5 +1,5 @@
 //project
-resource "google_project" "service" {
+resource "google_project" "microservice" {
   name            = var.gcp_project
   project_id      = var.gcp_project
   billing_account = var.billing_account

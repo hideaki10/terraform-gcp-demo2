@@ -3,14 +3,14 @@ variable "service_name" {
   type        = string
 }
 
-variable "envrionment" {
+variable "environment" {
   description = "Enviornment of the microservice"
   type        = string
 
   //命名規則
   validation {
-    condition     = contains(["dev", "prod"], var.envioronment)
-    error_message = "The environment must be dev or prod"
+    condition     = contains(["dev", "prod"], var.environment)
+    error_message = "The environment must be dev or prod."
   }
 }
 

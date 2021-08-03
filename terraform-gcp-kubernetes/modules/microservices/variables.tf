@@ -4,25 +4,25 @@ variable "service_name" {
 }
 
 variable "environment" {
-  description = "Environment of the service"
+  description = "environment of the service"
   type        = string
 
   validation {
-    condition     = contains(["dev", "prod", var.enviorment])
-    error_message = "The environment must be dev or prod"
+    condition     = contains(["dev", "prod", var.environment])
+    error_message = "The environment must be dev or prod."
   }
 }
 
 variable "service_viewers" {
-  descrption = "Views of the microservice"
-  type       = list(string)
+  description = "Views of the microservice"
+  type        = list(string)
 
   default = []
 }
 
 variable "service_admins" {
   description = "Admins of the microservice"
-  type        = list[string]
+  type        = list(string)
   default     = []
 }
 
@@ -38,14 +38,3 @@ variable "gcp_additional_enabled_services" {
   default = []
 }
 
-variable "service_viewers" {
-  description = "Views of the microservice"
-  type        = list(string)
-  default     = []
-}
-
-variable "service_admins" {
-  description = "Admins of the microservice"
-  type        = list(string)
-  default     = []
-}
