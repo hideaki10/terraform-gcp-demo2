@@ -37,3 +37,10 @@ variable "service_admins" {
   type        = list(string)
   default     = []
 }
+
+
+
+variable "billing_account" {
+  description = "Billing account for the GCP project"
+  type        = string
+}

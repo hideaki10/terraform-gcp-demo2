@@ -8,7 +8,7 @@ variable "environment" {
   type        = string
 
   validation {
-    condition     = contains(["dev", "prod", var.environment])
+    condition     = contains(["dev", "prod"], var.environment)
     error_message = "The environment must be dev or prod."
   }
 }
@@ -38,3 +38,12 @@ variable "gcp_additional_enabled_services" {
   default = []
 }
 
+
+
+variable "billing_account" {
+
+}
+
+variable "region"{
+
+}
