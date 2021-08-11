@@ -1,5 +1,5 @@
 terraform {
-  required_version = "~> 0.13"
+  required_version = "~> 1.0.2"
   required_providers {
     google = ">= 3.33.0"
   }
@@ -133,5 +133,6 @@ resource "google_logging_project_sink" "from_container_to_bq" {
 module "project" {
   source = "../project"
 
-  gcp_project = local.service_name_with_env
+  gcp_project     = local.service_name_with_env
+  billing_account = var.billing_account
 }

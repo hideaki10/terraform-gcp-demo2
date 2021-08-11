@@ -44,5 +44,4 @@ variable "environment" {
 variable "billing_account" {
   description = "Billing account for the GCP project"
   type        = string
-  # default     = 【あなたのBilling account】
 }

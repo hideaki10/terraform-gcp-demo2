@@ -1,9 +1,10 @@
 module "microservice" {
-  source = ".."
+  source = "../"
 
-  gke_project  = data.terraform_remote_state.cluster.outputs.gke_project_id
-  service_name = var.service_name
-  environment  = "dev"
+  gke_project     = data.terraform_remote_state.cluster.outputs.gke_project_id
+  service_name    = var.service_name
+  environment     = "dev"
+  billing_account = var.billing_account
 }
 
 // https://www.terraform.io/docs/providers/terraform/d/remote_state.html
@@ -21,7 +22,7 @@ data "google_client_config" "provider" {}
 
 # https://github.com/niallthomson/tanzu-playground/blob/4789e19da2b262c5de076fcd09778a0c92cf0c92/terraform/gke/cf-for-k8s/providers.tf
 provider "kubernetes" {
-  load_config_file = false
+  //load_config_file = false
 
   host  = "https://${data.terraform_remote_state.cluster.outputs.gke_endpoint}"
   token = data.google_client_config.provider.access_token

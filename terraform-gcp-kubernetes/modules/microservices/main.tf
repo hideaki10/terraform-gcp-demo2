@@ -40,7 +40,7 @@ resource "kubernetes_service_account" "pod_default" {
 resource "google_service_account_iam_member" "pod_default_is_workload_identity_user" {
   service_account_id = google_service_account.pod_default.name
   role               = "roles/iam.workloadIdentityUser"
-  member             = "serviceAccount:${var.gke_project}.svc.id.goog[${kubernetes_namespace.microservice.metadata[0].name}/${kubernetes_service_account.pod_default.metadata[0].name}]"
+  member             = "serviceAccount:${var.gke_project_id}.svc.id.goog[${kubernetes_namespace.microservice.metadata[0].name}/${kubernetes_service_account.pod_default.metadata[0].name}]"
 }
 
 
@@ -97,16 +97,16 @@ resource "google_artifact_registry_repository" "container" {
   location = var.region
 
   repository_id = "container"
-  format       = "DOCKER"
+  format        = "DOCKER"
 
 }
 
-resource "google_artifact_repository_iam_member" "pod_default_is_artifact_registry_reader" {
+resource "google_artifact_registry_repository_iam_member" "pod_default_is_artifact_registry_reader" {
   provider = google-beta
   project  = module.project.project_id
 
-  location   = google_artifact_registry_repositroy.container.location
-  repository = google_artifact_registry_repositroy.container.name
+  location   = google_artifact_registry_repository.container.location
+  repository = google_artifact_registry_repository.container.name
   role       = "roles/artifactregistry.reader"
   member     = "serviceAccount:${google_service_account.pod_default.email}"
 }

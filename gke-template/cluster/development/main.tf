@@ -1,21 +1,21 @@
 module "cluster" {
   source = "../../modules/cluster"
 
-  service_name    = "test-tfstate-20210811-01"
+  # 例: toshi0607-20201221-cluster
+  service_name    = "test-gke-cluster-01"
   environment     = "dev"
   billing_account = var.billing_account
 }
 
 provider "google" {
-  project = var.gcp_project
-  region  = var.region
+  project = "gcp-terraform-319807"
+  region  = var.gcp_project
 }
 
 provider "google-beta" {
-  project = var.gcp_project
-  region  = var.region
+  project = "gcp-terraform-319807"
+  region  = var.gcp_project
 }
-
 
 terraform {
   backend "gcs" {
@@ -24,7 +24,7 @@ terraform {
   }
 
   required_providers {
-    google      = ">=3.34.0"
-    google-beta = ">=3.34.0"
+    google      = ">= 3.34.0"
+    google-beta = ">= 3.34.0"
   }
 }

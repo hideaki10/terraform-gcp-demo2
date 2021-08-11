@@ -23,7 +23,7 @@ variable "service_name" {
 variable "billing_account" {
   description = "Billing account for the GCP project"
   type        = string
-  default     = "015CED-CEEB87-D21063"
+
 }
 
 variable "service_viewers" {

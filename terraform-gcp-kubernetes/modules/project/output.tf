@@ -1,4 +1,4 @@
 output "project_id" {
   description = "Name of project"
-  value       = google_project.microservice.project_id
+  value       = google_project.service.project_id
 }

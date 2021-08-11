@@ -18,6 +18,5 @@ variable "billing_account" {
 
 }
 
-variable "region"{}
+variable "region" {}
 
-variable "gcp_project"{}
