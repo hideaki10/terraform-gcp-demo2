@@ -18,7 +18,7 @@ func TestMicroservicesModule(t *testing.T) {
 		TerraformDir: "../microservices/examples",
 
 		Vars: map[string]interface{}{
-			"cluster_tfstate_bucket": "test-tfstate-20210804",
+			"cluster_tfstate_bucket": "tf-state-20210812-test-1",
 			"cluster_tfstate_prefix": "terraform/k8s-cluster/terraform_state",
 			"service_name":           expectedName,
 		},
@@ -30,7 +30,7 @@ func TestMicroservicesModule(t *testing.T) {
 
 	cmd := shell.Command{
 		Command: "gcloud",
-		Args:    []string{"container", "clusters", "get-credentials", "primary", "--region", "asia-northeast1", "--project", "k8s-cluster-dev"},
+		Args:    []string{"container", "clusters", "get-credentials", "primary", "--region", "asia-northeast1", "--project", "test-gke-cluster-02-dev"},
 	}
 
 	shell.RunCommand(t, cmd)
