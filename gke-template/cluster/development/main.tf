@@ -2,7 +2,7 @@ module "cluster" {
   source = "../../modules/cluster"
 
   # 例: toshi0607-20201221-cluster
-  service_name    = "test-gke-cluster-01"
+  service_name    = "test-gke-cluster-02"
   environment     = "dev"
   billing_account = var.billing_account
 }
@@ -19,7 +19,7 @@ provider "google-beta" {
 
 terraform {
   backend "gcs" {
-    bucket = "test-tfstate-20210804"
+    bucket = "tf-state-20210812-test"
     prefix = "terraform/k8s-cluster/terraform_state"
   }
 
