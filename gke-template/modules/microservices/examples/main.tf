@@ -31,6 +31,12 @@ provider "kubernetes" {
   )
 }
 
-provider "google" {}
+provider "google" {  
+  project = "gcp-terraform-319807"
+  region  = var.gcp_project
+}
 
-provider "google-beta" {}
+provider "google-beta" {
+    project = "gcp-terraform-319807"
+  region  = var.gcp_project
+}
